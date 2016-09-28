@@ -1,0 +1,19 @@
+master      ansible_user=vagrant ansible_host=192.168.55.10 ansible_ssh_private_key_file=../.vagrant/machines/master/virtualbox/private_key
+node1       ansible_user=vagrant ansible_host=192.168.55.11 ansible_ssh_private_key_file=../.vagrant/machines/node1/virtualbox/private_key
+node2       ansible_user=vagrant ansible_host=192.168.55.12 ansible_ssh_private_key_file=../.vagrant/machines/node2/virtualbox/private_key
+
+
+[linux]
+master
+node1
+node2
+
+
+[docker]
+master      consul_bootstrap=True
+node1
+node2
+
+[dev:children]
+linux
+docker

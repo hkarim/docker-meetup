@@ -1,0 +1,8 @@
+---
+
+ansible_user: vagrant
+
+env: dev
+
+network_device: "enp0s8"
+network_interface: "ansible_{{network_device}}"

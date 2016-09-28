@@ -1,0 +1,31 @@
+---
+
+- name: consul server bootstrap
+  docker:
+    name: consul
+    image: "{{version.consul}}"
+    state: restarted
+    net: host
+    ports:
+    - "{{hostvars[ansible_hostname][network_interface].ipv4.address}}:8500:8500"
+    env:
+      CONSUL_CLIENT_INTERFACE: "{{network_device}}"
+      CONSUL_BIND_INTERFACE: "{{network_device}}"
+      CONSUL_LOCAL_CONFIG: "{\"skip_leave_on_interrupt\": true}"
+    command: "agent -server -advertise {{hostvars[ansible_hostname][network_interface].ipv4.address}} -bootstrap"
+  when: consul_bootstrap is defined and consul_bootstrap
+
+- name: consul server -retry-join
+  docker:
+    name: consul
+    image: "{{version.consul}}"
+    state: restarted
+    net: host
+    ports:
+    - "{{hostvars[ansible_hostname][network_interface].ipv4.address}}:8500:8500"
+    env:
+      CONSUL_CLIENT_INTERFACE: "{{network_device}}"
+      CONSUL_BIND_INTERFACE: "{{network_device}}"
+      CONSUL_LOCAL_CONFIG: "{\"skip_leave_on_interrupt\": true}"
+    command: "agent -server -advertise {{hostvars[ansible_hostname][network_interface].ipv4.address}} -retry-join {{hostvars[groups['docker'][0]][network_interface].ipv4.address}}"
+  when: consul_bootstrap is not defined or not consul_bootstrap

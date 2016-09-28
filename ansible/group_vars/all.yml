@@ -1,0 +1,38 @@
+---
+
+ansible_user: root
+
+# xenial doesn't come with python2 https://groups.google.com/forum/#!topic/Ansible-project/DUKzTho3OCI
+ansible_python_interpreter: /usr/bin/python2.7
+
+env: unknown
+org: "cairo"
+base: "/{{org}}"
+git_base: "{{base}}/git"
+locale: "en_US.UTF-8"
+network: "{{org}}"
+network_device: "eth1"
+network_interface: "ansible_{{network_device}}"
+
+
+version:
+  docker_engine: "1.12.1"
+  docker_compose: "1.8.1"
+  node: "node:latest"
+  mysql: "mariadb:latest"
+  redis: "redis:latest"
+  haproxy: "haproxy:latest"
+  consul: "consul:latest"
+
+conf:
+  # docker
+  docker_apt_keyserver: "hkp://p80.pool.sks-keyservers.net:80"
+  docker_apt_keyid: "58118E89F3A912897C070ADBF76221572C52609D"
+  docker_apt_repository: "deb https://apt.dockerproject.org/repo ubuntu-xenial main"
+  docker_apt_prerequisites:
+    - apt-transport-https
+    - ca-certificates
+  docker_systemd_dir: "/etc/systemd/system/docker.service.d"
+
+  # git
+  #git_ssh_url_base: "git@github.com:cairo"

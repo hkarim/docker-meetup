@@ -1,0 +1,48 @@
+---
+
+- name: current IPs in this group
+  debug: msg="{{hostvars[ansible_hostname][network_interface].ipv4.address}}"
+
+- name: get kernel version
+  shell: uname -r
+  register: kernel_version
+
+- name: apt-get update
+  apt: update_cache=yes
+
+- name: docker prerequisites
+  apt: name={{item}} state=present
+  with_items: "{{conf.docker_apt_prerequisites}}"
+
+- name: install docker apt-key
+  apt_key: keyserver="{{conf.docker_apt_keyserver}}" id="{{conf.docker_apt_keyid}}"
+
+- name: install docker apt repository
+  apt_repository: repo="{{conf.docker_apt_repository}}" state=present
+
+- name: apt-get update
+  apt: update_cache=yes
+
+- name: linux image extra
+  apt: name="linux-image-extra-{{kernel_version.stdout}}" state=present
+
+- name: create docker group
+  group: name=docker state=present
+
+- name: add current user to docker group
+  user: name="{{ansible_user}}" group=docker
+
+- name: install docker-engine
+  apt: name="docker-engine" state=present
+
+- name: install docker-compose
+  pip: name=docker-compose version={{version.docker_compose}}
+
+- include: docker-systemd.yml
+
+- include: consul.yml
+
+- name: create docker overlay network
+  command: docker network create --driver overlay {{network}}
+  when: consul_bootstrap is defined and consul_bootstrap
+  ignore_errors: yes
