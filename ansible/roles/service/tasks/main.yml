@@ -1,0 +1,29 @@
+---
+
+- name: create service docker-compose path
+  file: name="{{base}}/docker-compose/service" state=directory
+
+- name: create service haproxy configuration path
+  file: name="{{base}}/etc/haproxy/service" state=directory
+
+- name: generate service haproxy configuration file
+  template: src="etc/haproxy/service/haproxy.cfg.j2" dest="{{base}}/etc/haproxy/service/haproxy.cfg"
+
+- name: generate service docker compose file
+  template: src="docker-compose/service/up.yml.j2" dest="{{base}}/docker-compose/service/up.yml"
+
+- name: service docker-compose up
+  command: "docker-compose --project-name {{inventory_hostname}} up -d --build --force-recreate"
+  environment:
+    COMPOSE_FILE: "{{base}}/docker-compose/service/up.yml"
+
+- name: service docker-compose scale
+  command: "docker-compose --project-name {{inventory_hostname}} scale {{item.key}}={{item.value}}"
+  environment:
+    COMPOSE_FILE: "{{base}}/docker-compose/service/up.yml"
+  with_dict: "{{scale[inventory_hostname]}}"
+
+- name: service docker-compose up again to reconnect mutual dependencies
+  command: "docker-compose --project-name {{inventory_hostname}} up -d"
+  environment:
+    COMPOSE_FILE: "{{base}}/docker-compose/service/up.yml"

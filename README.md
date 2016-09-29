@@ -4,6 +4,7 @@
 
 - VirtualBox
 - Vagrant
+- Ansible
 
 ## Setup
 
@@ -24,7 +25,7 @@ To make sure the machines are up:
 vagrant status
 ```
 
-Add ssh keys of the machines to known_hosts
+Add ssh keys of the host's known_hosts
 
 ```bash
 ssh-keyscan -H 192.168.55.10 >> ~/.ssh/known_hosts

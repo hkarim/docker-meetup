@@ -14,13 +14,12 @@ network: "{{org}}"
 network_device: "eth1"
 network_interface: "ansible_{{network_device}}"
 
-
 version:
   docker_engine: "1.12.1"
   docker_compose: "1.8.1"
-  node: "node:latest"
-  mysql: "mariadb:latest"
+  mongo: "mongo:latest"
   redis: "redis:latest"
+  node: "node:latest"
   haproxy: "haproxy:latest"
   consul: "consul:latest"
 
@@ -34,5 +33,31 @@ conf:
     - ca-certificates
   docker_systemd_dir: "/etc/systemd/system/docker.service.d"
 
-  # git
-  #git_ssh_url_base: "git@github.com:cairo"
+mongo:
+  data_dir: /var/mongo/data/db
+  port: 27017
+  db: chat
+  user: admin
+  password: admin
+
+redis:
+  port: 6379
+
+
+default_service_run_mode: "production"
+default_service_branch: "HEAD"
+default_service_main_script: "server.js"
+
+services:
+  -
+    name: "chat.io"
+    repo: "https://github.com/hkarim/chat.io"
+    container_name: "chatio"
+    branch: "{{default_service_branch}}"
+    work_dir: "."
+    mode: "{{default_service_run_mode}}"
+    main_script: "{{default_service_main_script}}"
+    proxy: True
+    bind_port: 3000
+    protocol: http
+    prefixes: ["/"]

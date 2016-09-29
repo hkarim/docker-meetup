@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+
+  haproxy:
+    image: {{version.haproxy}}
+    networks:
+      local:
+        aliases:
+          - haproxy
+      global:
+        aliases:
+          - "{{inventory_hostname}}-haproxy"
+    volumes:
+      - {{base}}/etc/haproxy/service:/usr/local/etc/haproxy
+
+  {% for service in services -%}
+
+  {{service.container_name}}:
+    build: {{service.repo}}.git
+    image: {{service.name}}
+    networks:
+      - local
+    environment:
+      NODE_ENV: {{service.mode}}
+      MONGO_URI: mongodb://{{mongo.user}}:{{mongo.password}}@haproxy:{{mongo.port}}/{{mongo.db}}
+      REDIS_HOST: haproxy
+      REDIS_PORT: {{redis.port}}
+
+      {{'\n  '}}
+
+  {%- endfor %}
+
+
+networks:
+  local:
+    driver: bridge
+  global:
+    external:
+      name: {{network}}

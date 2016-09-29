@@ -1,0 +1,26 @@
+defaults
+  maxconn  4000
+  retries  3
+  timeout  connect 5s
+  timeout  client  1m
+  timeout  server  1m
+  balance  roundrobin
+
+
+backend mongo
+  mode tcp
+  server mongo mongo:{{mongo.port}}
+
+backend redis
+  mode tcp
+  server redis redis:{{redis.port}}
+
+frontend mongo-fe
+  mode tcp
+  bind *:{{mongo.port}}
+  use_backend mongo
+
+frontend redis-fe
+  mode tcp
+  bind *:{{redis.port}}
+  use_backend redis

@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+
+  mongo:
+    image: {{version.mongo}}
+    networks:
+      local:
+        aliases:
+          - mongo
+    volumes:
+      - {{mongo.data_dir}}:/data/db
+
+  redis:
+    image: {{version.redis}}
+    networks:
+      local:
+        aliases:
+          - redis
+
+  haproxy:
+    image: {{version.haproxy}}
+    networks:
+      local:
+        aliases:
+          - haproxy
+      global:
+        aliases:
+          - db
+    volumes:
+      - {{base}}/etc/haproxy/db:/usr/local/etc/haproxy
+
+
+networks:
+  local:
+    driver: bridge
+  global:
+    external:
+      name: {{network}}

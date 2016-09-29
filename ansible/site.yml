@@ -2,3 +2,5 @@
 
 - include: linux.yml
 - include: docker.yml
+- include: db.yml
+- include: service.yml

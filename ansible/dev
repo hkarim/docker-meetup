@@ -14,6 +14,19 @@ master      consul_bootstrap=True
 node1
 node2
 
+[db]
+master
+
+[service]
+node1
+node2
+
+[web]
+master
+
 [dev:children]
 linux
 docker
+db
+service
+web
