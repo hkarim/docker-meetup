@@ -7,12 +7,6 @@
 
 ## Setup
 
-```bash
-ssh-keyscan -H 192.168.55.10 >> ~/.ssh/known_hosts
-ssh-keyscan -H 192.168.55.11 >> ~/.ssh/known_hosts
-ssh-keyscan -H 192.168.55.12 >> ~/.ssh/known_hosts
-```
-
 The setup consists of 3 virtual machines:
 - master
 - node1
@@ -30,10 +24,12 @@ To make sure the machines are up:
 vagrant status
 ```
 
-Try to ssh into the machines to get the keys into known_hosts
+Add ssh keys of the machines to known_hosts
 
 ```bash
-
+ssh-keyscan -H 192.168.55.10 >> ~/.ssh/known_hosts
+ssh-keyscan -H 192.168.55.11 >> ~/.ssh/known_hosts
+ssh-keyscan -H 192.168.55.12 >> ~/.ssh/known_hosts
 ```
 
 Now, provision the machines using ansible
