@@ -16,6 +16,11 @@
 - name: generate docker-compose file
   template: src="docker-compose/db/up.yml.j2" dest="{{base}}/docker-compose/db/up.yml"
 
+# - name: remove haproxy from the overlay network (workaround)
+#   command: docker network disconnect -f {{network}} db_haproxy_1
+#   ignore_errors: True
+
+
 - name: db docker-compose up
   command: "docker-compose --project-name db up -d --force-recreate"
   environment:

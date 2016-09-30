@@ -44,6 +44,9 @@ mongo:
 redis:
   port: 6379
 
+consul:
+  data_dir: /var/consul/data
+
 
 default_service_run_mode: "production"
 default_service_branch: "HEAD"

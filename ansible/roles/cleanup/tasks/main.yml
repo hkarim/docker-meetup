@@ -1,0 +1,25 @@
+---
+
+- name: remove stale containers
+  command: docker rm web_haproxy_1 db_haproxy_1 node1_haproxy_1 node2_haproxy_1
+  ignore_errors: True
+
+- name: remove stale network entries, web_haproxy_1
+  command: "docker network disconnect -f {{network}} web_haproxy_1"
+  ignore_errors: True
+
+- name: remove stale network entries, db_haproxy_1
+  command: "docker network disconnect -f {{network}} db_haproxy_1"
+  ignore_errors: True
+
+- name: remove stale network entries, node1_haproxy_1
+  command: "docker network disconnect -f {{network}} node1_haproxy_1"
+  ignore_errors: True
+
+- name: remove stale network entries, node2_haproxy_1
+  command: "docker network disconnect -f {{network}} node2_haproxy_1"
+  ignore_errors: True
+
+- name: drop overlay network {{network}}
+  command: "docker network rm {{network}}"
+  ignore_errors: True

@@ -1,5 +1,14 @@
 ---
 
+- name: consul data directory
+  file: name={{consul.data_dir}} state=directory
+
+# - name: remove consul
+#   docker:
+#     name: consul
+#     image: "{{version.consul}}"
+#     state: absent
+
 - name: consul server bootstrap
   docker:
     name: consul
@@ -7,7 +16,9 @@
     state: restarted
     net: host
     ports:
-    - "{{hostvars[ansible_hostname][network_interface].ipv4.address}}:8500:8500"
+      - "{{hostvars[ansible_hostname][network_interface].ipv4.address}}:8500:8500"
+    volumes:
+      - "{{consul.data_dir}}:/consul/data"
     env:
       CONSUL_CLIENT_INTERFACE: "{{network_device}}"
       CONSUL_BIND_INTERFACE: "{{network_device}}"
@@ -22,7 +33,9 @@
     state: restarted
     net: host
     ports:
-    - "{{hostvars[ansible_hostname][network_interface].ipv4.address}}:8500:8500"
+      - "{{hostvars[ansible_hostname][network_interface].ipv4.address}}:8500:8500"
+    volumes:
+      - "{{consul.data_dir}}:/consul/data"
     env:
       CONSUL_CLIENT_INTERFACE: "{{network_device}}"
       CONSUL_BIND_INTERFACE: "{{network_device}}"

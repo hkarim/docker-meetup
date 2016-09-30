@@ -6,9 +6,12 @@
 # enable docker overlay/multi-host networking
 - name: docker systemd custom configuration
   template: src="etc/systemd/system/docker.service.d/overlay.conf.j2" dest="{{conf.docker_systemd_dir}}/{{network}}.conf"
+  register: systemd
 
 - name: systemctl daemon-reload
   command: systemctl daemon-reload
+  when: systemd.changed
 
 - name: systemctl restart docker
   command: systemctl restart docker
+  when: systemd.changed

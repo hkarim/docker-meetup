@@ -41,3 +41,7 @@ Now, provision the machines using ansible
 cd ansible
 ansible-playbook --inventory-file=dev -v --sudo site.yml
 ```
+
+## Troubleshooting
+
+- To remove stale containers from an overlay network `docker network disconnect -f {network} {container}`
