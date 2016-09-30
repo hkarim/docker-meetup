@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+
+  haproxy:
+    image: {{version.haproxy}}
+    networks:
+      local:
+        aliases:
+          - app
+      global:
+        aliases:
+          - "{{inventory_hostname}}-haproxy"
+    volumes:
+      - {{base}}/etc/haproxy/web:/usr/local/etc/haproxy
+
+  nginx:
+    image: {{version.nginx}}
+    networks:
+      - local
+    volumes:
+      - {{base}}/etc/nginx/web:/etc/nginx
+    ports:
+      - "0.0.0.0:80:80"
+
+networks:
+  local:
+    driver: bridge
+  global:
+    external:
+      name: {{network}}

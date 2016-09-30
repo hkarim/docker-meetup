@@ -22,8 +22,3 @@
   environment:
     COMPOSE_FILE: "{{base}}/docker-compose/service/up.yml"
   with_dict: "{{scale[inventory_hostname]}}"
-
-- name: service docker-compose up again to reconnect mutual dependencies
-  command: "docker-compose --project-name {{inventory_hostname}} up -d"
-  environment:
-    COMPOSE_FILE: "{{base}}/docker-compose/service/up.yml"

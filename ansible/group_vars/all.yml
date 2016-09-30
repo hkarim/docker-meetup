@@ -21,6 +21,7 @@ version:
   redis: "redis:latest"
   node: "node:latest"
   haproxy: "haproxy:latest"
+  nginx: "nginx:latest"
   consul: "consul:latest"
 
 conf:

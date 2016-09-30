@@ -12,6 +12,7 @@ The setup consists of 3 virtual machines:
 - master
 - node1
 - node2
+- db1
 
 To bring up the 3 virtual machines:
 
@@ -31,6 +32,7 @@ Add ssh keys of the host's known_hosts
 ssh-keyscan -H 192.168.55.10 >> ~/.ssh/known_hosts
 ssh-keyscan -H 192.168.55.11 >> ~/.ssh/known_hosts
 ssh-keyscan -H 192.168.55.12 >> ~/.ssh/known_hosts
+ssh-keyscan -H 192.168.55.13 >> ~/.ssh/known_hosts
 ```
 
 Now, provision the machines using ansible

@@ -3,7 +3,7 @@
 # install python 2, xenial doesn't come with python2
 - name: apt-get update
   raw: sudo apt-get update -qq
-- name: Install python 2.7
+- name: install python 2.7
   raw: sudo apt-get install -qq python2.7
 
 - name: set machine locale

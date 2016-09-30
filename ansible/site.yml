@@ -4,3 +4,4 @@
 - include: docker.yml
 - include: db.yml
 - include: service.yml
+- include: web.yml

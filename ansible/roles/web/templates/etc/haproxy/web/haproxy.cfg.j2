@@ -1,0 +1,20 @@
+defaults
+  maxconn  4000
+  retries  3
+  timeout  connect 5s
+  timeout  client  1m
+  timeout  server  1m
+  balance  roundrobin
+
+
+backend app
+  mode http
+  {% for node in groups['service'] %}
+  server {{node}}_haproxy_1 {{node}}_haproxy_1:80
+  {% endfor %}
+
+
+frontend app-fe
+  mode http
+  bind *:80
+  use_backend app

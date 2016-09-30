@@ -26,6 +26,11 @@ services:
       MONGO_URI: mongodb://{{mongo.user}}:{{mongo.password}}@haproxy:{{mongo.port}}/{{mongo.db}}
       REDIS_HOST: haproxy
       REDIS_PORT: {{redis.port}}
+      SESSION_SECRET: 'none'
+      FACEBOOK_CLIENT_ID: 'none'
+      FACEBOOK_CLIENT_SECRET: 'none'
+      TWITTER_CONSUMER_KEY: 'none'
+      TWITTER_CONSUMER_SECRET: 'none'
 
       {{'\n  '}}
 

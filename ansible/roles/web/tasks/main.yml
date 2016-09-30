@@ -1,0 +1,24 @@
+---
+
+- name: create web haproxy configuration path
+  file: name="{{base}}/etc/haproxy/web" state=directory
+
+- name: generate web haproxy configuration file
+  template: src="etc/haproxy/web/haproxy.cfg.j2" dest="{{base}}/etc/haproxy/web/haproxy.cfg"
+
+- name: create web nginx configuration path
+  file: name="{{base}}/etc/nginx/web" state=directory
+
+- name: generate web nginx configuration file
+  template: src="etc/nginx/web/nginx.conf.j2" dest="{{base}}/etc/nginx/web/nginx.conf"
+
+- name: create web docker-compose path
+  file: name="{{base}}/docker-compose/web" state=directory
+
+- name: generate web docker-compose up.yml
+  template: src="docker-compose/web/up.yml.j2" dest="{{base}}/docker-compose/web/up.yml"
+
+- name: web docker-compose up
+  command: "docker-compose --project-name web up -d --force-recreate"
+  environment:
+    COMPOSE_FILE: "{{base}}/docker-compose/web/up.yml"
