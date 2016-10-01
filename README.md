@@ -45,3 +45,17 @@ ansible-playbook --inventory-file=dev -v --sudo site.yml
 ## Troubleshooting
 
 - To remove stale containers from an overlay network `docker network disconnect -f {network} {container}`
+
+## Cleanup
+
+- To cleanup a single node, for example `node2`
+
+```bash
+ansible-playbook --inventory-file=dev -v --sudo --limit node2 --extra-vars "@cleanup-node2-vars.json" cleanup.yml
+```
+
+- To cleanup the whole machines:
+
+```bash
+ansible-playbook --inventory-file=dev -v --sudo --extra-vars "@cleanup-all-vars.json" cleanup.yml
+```

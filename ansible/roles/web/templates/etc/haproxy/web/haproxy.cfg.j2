@@ -1,17 +1,21 @@
 defaults
   maxconn  4000
-  retries  3
+  retries  2
   timeout  connect 5s
-  timeout  client  1m
-  timeout  server  1m
+  timeout  client  10s
+  timeout  server  10s
   balance  roundrobin
 
 
 backend app
   mode http
-  {% for node in groups['service'] %}
-  server {{node}}_haproxy_1 {{node}}_haproxy_1:80
-  {% endfor %}
+  option httpchk
+  option log-health-checks
+  default-server inter 2s fall 1 rise 1
+  server node1_chatio_1 node1_chatio_1:3000 check
+  server node1_chatio_2 node1_chatio_2:3000 check
+  server node2_chatio_1 node2_chatio_1:3000 check
+  server node2_chatio_2 node2_chatio_2:3000 check
 
 
 frontend app-fe

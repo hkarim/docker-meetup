@@ -2,29 +2,17 @@ version: '2'
 
 services:
 
-  haproxy:
-    image: {{version.haproxy}}
-    networks:
-      local:
-        aliases:
-          - haproxy
-      global:
-        aliases:
-          - "{{inventory_hostname}}-haproxy"
-    volumes:
-      - {{base}}/etc/haproxy/service:/usr/local/etc/haproxy
-
   {% for service in services -%}
 
   {{service.container_name}}:
     build: {{service.repo}}.git
     image: {{service.name}}
     networks:
-      - local
+      - global
     environment:
       NODE_ENV: {{service.mode}}
-      MONGO_URI: mongodb://{{mongo.user}}:{{mongo.password}}@haproxy:{{mongo.port}}/{{mongo.db}}
-      REDIS_HOST: haproxy
+      MONGO_URI: mongodb://{{mongo.user}}:{{mongo.password}}@mongoproxy:{{mongo.port}}/{{mongo.db}}
+      REDIS_HOST: redisproxy
       REDIS_PORT: {{redis.port}}
       SESSION_SECRET: 'none'
       FACEBOOK_CLIENT_ID: 'none'
@@ -36,10 +24,7 @@ services:
 
   {%- endfor %}
 
-
 networks:
-  local:
-    driver: bridge
   global:
     external:
       name: {{network}}

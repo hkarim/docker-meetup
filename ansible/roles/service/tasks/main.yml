@@ -3,12 +3,6 @@
 - name: create service docker-compose path
   file: name="{{base}}/docker-compose/service" state=directory
 
-- name: create service haproxy configuration path
-  file: name="{{base}}/etc/haproxy/service" state=directory
-
-- name: generate service haproxy configuration file
-  template: src="etc/haproxy/service/haproxy.cfg.j2" dest="{{base}}/etc/haproxy/service/haproxy.cfg"
-
 - name: generate service docker compose file
   template: src="docker-compose/service/up.yml.j2" dest="{{base}}/docker-compose/service/up.yml"
 

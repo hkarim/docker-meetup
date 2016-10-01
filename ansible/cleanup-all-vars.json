@@ -1,0 +1,9 @@
+{
+  "rm_networks": ["cairo", "db_local", "web_local"],
+  "stop_containers": [
+    "web_nginx_1", "web_haproxy_1", "node1_chatio_1", "node1_chatio_2", "node2_chatio_1", "node2_chatio_2", "db_haproxy_1"
+  ],
+  "rm_containers": [
+    "web_nginx_1", "web_haproxy_1", "node1_chatio_1", "node1_chatio_2", "node2_chatio_1", "node2_chatio_2", "db_haproxy_1"
+  ]
+}

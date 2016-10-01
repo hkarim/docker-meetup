@@ -26,7 +26,8 @@ services:
           - haproxy
       global:
         aliases:
-          - db
+          - mongoproxy
+          - redisproxy
     volumes:
       - {{base}}/etc/haproxy/db:/usr/local/etc/haproxy
 

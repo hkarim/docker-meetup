@@ -1,0 +1,9 @@
+{
+  "rm_networks": [],
+  "stop_containers": [
+    "node2_chatio_1", "node2_chatio_2"
+  ],
+  "rm_containers": [
+    "node2_chatio_1", "node2_chatio_2"
+  ]
+}
